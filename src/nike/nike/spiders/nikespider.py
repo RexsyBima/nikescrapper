@@ -1,5 +1,13 @@
 import scrapy
 import os
+import subprocess
+
+browse = subprocess.run(['python', 'browser.py'])
+
+def get_html_folder_files():
+    root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
+    folder_path = os.path.join(root_folder, ".temp","html_output")
+    return folder_path
 
 def get_files_in_folder(folder_path):
     file_list = []
@@ -19,7 +27,7 @@ def get_files_in_folder(folder_path):
 class NikespiderSpider(scrapy.Spider):
     name = "nikespider"
     allowed_domains = ["www.nike.com"]
-    start_urls = get_files_in_folder(folder_path="/home/rexsybimq12/python/scrapy/nike/nike/html_output") #os.path // path in python
+    start_urls = get_files_in_folder(folder_path=get_html_folder_files()) #os.path // path in python
 
     def parse_price(self, response):
         price = response.css('div.product-price::text').get()
