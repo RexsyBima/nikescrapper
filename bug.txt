@@ -1,0 +1,40 @@
+2023-07-28 16:10:52 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.nike.com/id/launch/t/big-kids-air-jordan-6-low-fierce-pink1> (referer: None)
+Traceback (most recent call last):
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\utils\defer.py", line 260, in iter_errback
+    yield next(it)
+          ^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\utils\python.py", line 336, in __next__
+    return next(self.data)
+           ^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\utils\python.py", line 336, in __next__
+    return next(self.data)
+           ^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 106, in process_sync
+    for r in iterable:
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 28, in <genexpr>
+    return (r for r in result or () if self._filter(r, spider))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 106, in process_sync
+    for r in iterable:
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\spidermiddlewares\referer.py", line 352, in <genexpr>
+    return (self._set_referer(r, response) for r in result or ())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 106, in process_sync
+    for r in iterable:
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 27, in <genexpr>
+    return (r for r in result or () if self._filter(r, spider))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 106, in process_sync
+    for r in iterable:
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\spidermiddlewares\depth.py", line 31, in <genexpr>
+    return (r for r in result or () if self._filter(r, response, spider))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\mickj\Python\nikescrapper\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 106, in process_sync
+    for r in iterable:
+  File "C:\Users\mickj\Python\nikescrapper\src\nike\nike\spiders\nikespider.py", line 56, in parse_product_page
+    'price'       : self.parse_price(response=response),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mickj\Python\nikescrapper\src\nike\nike\spiders\nikespider.py", line 34, in parse_price
+    return price.replace('\xa0', '') #Rp/xa01.500.000 <- -> Rp1.500.000
+           ^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'
