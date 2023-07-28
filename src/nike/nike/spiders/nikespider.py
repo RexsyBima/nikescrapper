@@ -1,8 +1,8 @@
 import scrapy
 import os
-import subprocess
-
-browse = subprocess.run(['python', 'browser.py'])
+#import subprocess
+#
+#browse = subprocess.run(['python', 'browser.py'])
 
 def get_html_folder_files():
     root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
@@ -19,7 +19,7 @@ def get_files_in_folder(folder_path):
         # Check if the entry is a file (not a directory)
         if os.path.isfile(os.path.join(folder_path, entry)):
             full_path = os.path.join(folder_path, entry)
-            file_list.append("file://" + full_path)
+            file_list.append("file:\\" + full_path)
 
     return file_list
 
@@ -51,10 +51,10 @@ class NikespiderSpider(scrapy.Spider):
     def parse_product_page(self, response):
         product = response.css('body')
         yield{
-            'title'       : response.css('h1.headline-2 ::text').get(),
-            'category'    : response.css('h2.headline-5 ::text').get(),
+            'title'       : product.css('h1.headline-2 ::text').get(),
+            'category'    : product.css('h2.headline-5 ::text').get(),
             'price'       : self.parse_price(response=response),
-            'description' : response.css('div.description-preview ::text').get(),
+            'description' : product.css('div.description-preview ::text').get(),
             'colour'      : self.parse_colour(response=response),
             'url'         : response.url, 
             'img_url'     : self.parse_img_url(response=response)
