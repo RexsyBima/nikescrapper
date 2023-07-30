@@ -1,19 +1,22 @@
 from selenium import webdriver
-
+from selenium.webdriver.chrome.options import Options
 import time, os
 from bs4 import BeautifulSoup
 
 class Scroller:
     def __init__(self):
         #wde = WebDriverException
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        options.add_argument('--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"')
+        options = Options()
+        #options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        #options.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36')
+        options.add_argument("--start-maximized")
         self.driver = webdriver.Chrome(options=options)
       
     def scroll(self, url):
         target_url = url
         self.driver.get(target_url)
+        print(self.driver.execute_script("return navigator.userAgent"))
         time.sleep(5)
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
@@ -43,7 +46,9 @@ class Scroller:
         self.driver.quit()
 
 
-#url = 'https://www.nike.com/id/w/new-womens-3n82yz5e1x6'  # replace with your target URL
+"""url = 'https://www.nike.com/id/w/new-womens-3n82yz5e1x6'  # replace with your target URL
+
+"""
 urls = {
     'men_shoes'                   : 'https://www.nike.com/id/w/mens-shoes-nik1zy7ok',
     'men_clothing'                : 'https://www.nike.com/id/w/mens-clothing-6ymx6znik1',
@@ -59,10 +64,10 @@ urls = {
 }
 
 if __name__ == "__main__":  
-       
+    scroller = Scroller()   
     for webname, url in urls.items():    
-        scroller = Scroller()
         scroller.scroll(url=url)
         scroller.save_html(webname)  # replace 'page.html' with your desired file name     
+        print(f"success accessing NIKE {webname} at URL : {url}")
     scroller.quit()
     #scroller.close()

@@ -1,8 +1,8 @@
 import scrapy
 import os
-#import subprocess
-#
-#browse = subprocess.run(['python', 'browser.py'])
+import subprocess
+
+browse = subprocess.run(['python', 'browser.py'])
 
 def get_html_folder_files():
     root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
@@ -47,10 +47,32 @@ class NikespiderSpider(scrapy.Spider):
         for product in products:
             relative_url = product.css('a.product-card__link-overlay').attrib['href']
             yield response.follow(relative_url, callback=self.parse_product_page)
+            
+    def product_alternative_product_name(self, response, int_): #fix for https://www.nike.com/id/launch/t/big-kids-air-jordan-6-low-fierce-pink1
+        product = response.css('.product-info ::text').getall() 
+        if int_ == 2:
+            return product[2].replace('\xa0', '')
+        elif int_ == 5:
+            return response.css('.description-text ::text').get() + '' + product[int_]  
+        return product[int_]
+            
+        #guide : 0 for product title, 1 for color, 2 for price+parse, not yet complete ->3 for category,  5 for description
+    
     
     def parse_product_page(self, response):
         product = response.css('body')
-        yield{
+        if "/launch/t/" in response.url: # dealing https://www.nike.com/id/launch/t/air-foamposite-one-metallic-red-1
+            yield{
+            'title'       : self.product_alternative_product_name(response=response, int_=0),
+            'category'    : "Launching New Product", #<-- to fix  #product.css('h2.headline-5 ::text').get() or self.product_alternative_product_name(response=response, int_=3)
+            'price'       : self.product_alternative_product_name(response=response, int_=2),
+            'description' : product.css('.description-text ::text').get(),       #product.css('div.description-preview ::text').get() or self.product_alternative_product_name(response=response, int_=5),
+            'colour'      : self.product_alternative_product_name(response=response, int_=1),
+            'url'         : response.url, 
+            'img_url'     : "None" #<-- to fix #self.parse_img_url(response=response) or self.product_alternative_product_name(response=response, int_=1)                
+            }
+        else: # dealing https://www.nike.com/id/t/air-pegasus-89-shoes-Jh7lxZ/FN6838-012
+            yield{
             'title'       : product.css('h1.headline-2 ::text').get(),
             'category'    : product.css('h2.headline-5 ::text').get(),
             'price'       : self.parse_price(response=response),
