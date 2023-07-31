@@ -50,15 +50,26 @@ class NikespiderSpider(scrapy.Spider):
     
     def parse_product_page(self, response):
         product = response.css('body')
-        yield{
-            'title'       : response.css('h1.headline-2 ::text').get(),
-            'category'    : response.css('h2.headline-5 ::text').get(),
-            'price'       : self.parse_price(response=response),
-            'description' : response.css('div.description-preview ::text').get(),
-            'colour'      : self.parse_colour(response=response),
+        if "/launch/t/" in response.url: # dealing https://www.nike.com/id/launch/t/air-foamposite-one-metallic-red-1 
+            yield{
+            'title'       : self.product_alternative_product_name(response=response, int_=0),
+            'category'    : "New Product Launch", #<-- to fix  #product.css('h2.headline-5 ::text').get() or self.product_alternative_product_name(response=response, int_=3)
+            'price'       : self.product_alternative_product_name(response=response, int_=2),
+            'description' : product.css('.description-text ::text').get(),       #product.css('div.description-preview ::text').get() or self.product_alternative_product_name(response=response, int_=5),
+            'colour'      : self.product_alternative_product_name(response=response, int_=1),
             'url'         : response.url, 
-            'img_url'     : self.parse_img_url(response=response)
-        }
+            'img_url'     : "None" #<-- to fix #self.parse_img_url(response=response) or self.product_alternative_product_name(response=response, int_=1)                
+            }
+        else:
+            yield{
+                'title'       : response.css('h1.headline-2 ::text').get(),
+                'category'    : response.css('h2.headline-5 ::text').get(),
+                'price'       : self.parse_price(response=response),
+                'description' : response.css('div.description-preview ::text').get(),
+                'colour'      : self.parse_colour(response=response),
+                'url'         : response.url, 
+                'img_url'     : self.parse_img_url(response=response)
+            }
 
 #poetry - dependensi manager || regex python    \\ dibikin command line \\ typer
 #bug products.csv, some link urls doesnt have --> "" <--

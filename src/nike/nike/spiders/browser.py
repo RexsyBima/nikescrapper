@@ -1,31 +1,19 @@
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException 
 import time, os
-import platform
+
 
 class Scroller:
     def __init__(self, url):
         #wde = WebDriverException
-        if platform.system() == "Darwin":
-            try:
-                self.driver = webdriver.Safari()
-            except Exception:
-                exit()
-        else:
-            try:
-                self.driver = webdriver.Chrome()
-            except WebDriverException:
-                try:
-                    self.driver = webdriver.Firefox()
-                except WebDriverException:
-                    try:
-                        self.driver = webdriver.Edge()
-                    except WebDriverException:
-                        self.driver = None        
-        self.url = url
+        #options = webdriver.EdgeOptions()
+        #options.add_argument = '--no-sandbox'
+        #options.binary_location = '/home/rexsybimq12/.local/bin/msedgedriver'
+        self.driver = webdriver.Chrome()
 
-    def scroll(self):
-        self.driver.get(self.url)
+    def scroll(self, url):
+        self.driver.get(url)
+        a = self.driver.execute_script("return navigator.userAgent")
+        print(a)
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
@@ -66,8 +54,11 @@ urls = {
 }
 
 if __name__ == "__main__":     
+    scroller = Scroller()
     for webname, url in urls.items():    
-        scroller = Scroller(url)
-        scroller.scroll()
+        time.sleep(2)
+        scroller.scroll(url)
         scroller.save_html(webname)  # replace 'page.html' with your desired file name
     scroller.quit()
+    
+#Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
