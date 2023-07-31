@@ -2,7 +2,7 @@ import scrapy
 import os
 import subprocess
 
-browse = subprocess.run(['python', 'browser.py'])
+subprocess.run(['python', 'browser.py'])
 
 def get_html_folder_files():
     root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
@@ -64,7 +64,7 @@ class NikespiderSpider(scrapy.Spider):
         if "/launch/t/" in response.url: # dealing https://www.nike.com/id/launch/t/air-foamposite-one-metallic-red-1
             yield{
             'title'       : self.product_alternative_product_name(response=response, int_=0),
-            'category'    : "Launching New Product", #<-- to fix  #product.css('h2.headline-5 ::text').get() or self.product_alternative_product_name(response=response, int_=3)
+            'category'    : "New Product Launch", #<-- to fix  #product.css('h2.headline-5 ::text').get() or self.product_alternative_product_name(response=response, int_=3)
             'price'       : self.product_alternative_product_name(response=response, int_=2),
             'description' : product.css('.description-text ::text').get(),       #product.css('div.description-preview ::text').get() or self.product_alternative_product_name(response=response, int_=5),
             'colour'      : self.product_alternative_product_name(response=response, int_=1),
@@ -84,3 +84,5 @@ class NikespiderSpider(scrapy.Spider):
 
 #poetry - dependensi manager || regex python    \\ dibikin command line \\ typer
 #bug products.csv, some link urls doesnt have --> "" <--
+
+subprocess.run(['python', 'move_file.py'])
