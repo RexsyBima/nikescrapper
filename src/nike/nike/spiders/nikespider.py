@@ -2,7 +2,7 @@ import scrapy
 import os
 import subprocess
 
-browse = subprocess.run(['python', 'browser.py'])
+subprocess.run(['python', 'browser.py'])
 
 def get_html_folder_files():
     root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
@@ -47,6 +47,15 @@ class NikespiderSpider(scrapy.Spider):
         for product in products:
             relative_url = product.css('a.product-card__link-overlay').attrib['href']
             yield response.follow(relative_url, callback=self.parse_product_page)
+   
+    def product_alternative_product_name(self, response, int_): #fix for https://www.nike.com/id/launch/t/big-kids-air-jordan-6-low-fierce-pink1
+        product = response.css('.product-info ::text').getall() 
+        if int_ == 2:
+            return product[2].replace('\xa0', '')
+        elif int_ == 5:
+            return response.css('.description-text ::text').get() + '' + product[int_]  
+        return product[int_]
+
     
     def parse_product_page(self, response):
         product = response.css('body')

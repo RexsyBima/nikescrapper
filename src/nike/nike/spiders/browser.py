@@ -3,12 +3,12 @@ import time, os
 
 
 class Scroller:
-    def __init__(self, url):
+    def __init__(self):
         #wde = WebDriverException
-        #options = webdriver.EdgeOptions()
-        #options.add_argument = '--no-sandbox'
+        options = webdriver.ChromeOptions()
+        options.add_argument = '--no-sandbox'
         #options.binary_location = '/home/rexsybimq12/.local/bin/msedgedriver'
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=options)
 
     def scroll(self, url):
         self.driver.get(url)
@@ -37,13 +37,24 @@ class Scroller:
     def quit(self):
         self.driver.quit()
 
-
-#url = 'https://www.nike.com/id/w/new-womens-3n82yz5e1x6'  # replace with your target URL
-urls = {
+'''
     'men_shoes'                   : 'https://www.nike.com/id/w/mens-shoes-nik1zy7ok',
     'men_clothing'                : 'https://www.nike.com/id/w/mens-clothing-6ymx6znik1',
     'men_accessories_equipment'   : 'https://www.nike.com/id/w/mens-accessories-equipment-awwpwznik1',
+    'women_clothing'              : 'https://www.nike.com/id/w/womens-clothing-5e1x6z6ymx6',
+    'women_accessories_equipment' : 'https://www.nike.com/id/w/womens-accessories-equipment-5e1x6zawwpw',
+    'kids_boys_clothing'          : "https://www.nike.com/id/w/boys-clothing-4413nz6ymx6",
+    'kids_boys_shoes'             : "https://www.nike.com/id/w/boys-shoes-4413nzy7ok",
+    "kids_girls_clothing"         : "https://www.nike.com/id/w/girls-clothing-6bnmbz6ymx6",
+    "kids_girls_shoes"            : "https://www.nike.com/id/w/girls-shoes-6bnmbzy7ok",
+    'kids_accessories_equipment'  : 'https://www.nike.com/id/w/kids-accessories-equipment-awwpwzv4dh'
+
+'''
+urls = {
     'women_shoes'                 : 'https://www.nike.com/id/w/womens-shoes-5e1x6zy7ok',
+    'men_shoes'                   : 'https://www.nike.com/id/w/mens-shoes-nik1zy7ok',
+    'men_clothing'                : 'https://www.nike.com/id/w/mens-clothing-6ymx6znik1',
+    'men_accessories_equipment'   : 'https://www.nike.com/id/w/mens-accessories-equipment-awwpwznik1',
     'women_clothing'              : 'https://www.nike.com/id/w/womens-clothing-5e1x6z6ymx6',
     'women_accessories_equipment' : 'https://www.nike.com/id/w/womens-accessories-equipment-5e1x6zawwpw',
     'kids_boys_clothing'          : "https://www.nike.com/id/w/boys-clothing-4413nz6ymx6",
@@ -60,5 +71,3 @@ if __name__ == "__main__":
         scroller.scroll(url)
         scroller.save_html(webname)  # replace 'page.html' with your desired file name
     scroller.quit()
-    
-#Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36

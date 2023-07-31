@@ -1,3 +1,4 @@
+import os
 # Scrapy settings for nike project
 #
 # For simplicity, this file contains only settings considered important or
@@ -87,7 +88,22 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
+def move_file_to_output_folder(file_name):
+    # Get the current working directory of the script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Define the source and destination file paths
+    source_file_path = os.path.join(current_dir, file_name)
+    destination_folder_path = os.path.join(current_dir, "../../../output")
+
+    # Create the destination folder if it doesn't exist
+    os.makedirs(destination_folder_path, exist_ok=True)
+    return destination_folder_path
+
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+FEEDS = {
+    'data.csv' : {'format' : 'csv'}
+}

@@ -1,29 +1,15 @@
-import os
+import re
 
-#def get_files_in_folder(folder_path):
-#    file_list = []
-#
-#    # List all files and directories in the given folder path
-#    entries = os.listdir(folder_path)
-#
-#    for entry in entries:
-#        # Check if the entry is a file (not a directory)
-#        if os.path.isfile(os.path.join(folder_path, entry)):
-#            full_path = os.path.join(folder_path, entry)
-#            file_list.append("file://" + full_path)
-#
-#    return file_listp
-#
-#folder_path = "/home/rexsybimq12/python/scrapy/nike/nike/html_output"
-#filenames_with_path = get_files_in_folder(folder_path)
+def replace_rp_string(input_string):
+    # Remove 'Rp' and ',' characters using regular expressions
+    cleaned_string = re.sub(r'Rp|,', '', input_string)
+
+    # Convert to an integer and then format the number with thousand separators
+    formatted_number = '{:,}'.format(int(cleaned_string))
+
+    return formatted_number
 
 
-#file:///home/rexsybimq12/python/scrapy/nike/nike/spiders/page.html
-def get_html_folder_files():
-    root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
-    folder_path = os.path.join(root_folder, ".temp","html_output")
-    return folder_path
-
-x = "asd"
-y = int(x)
-print(y)
+input_string = 'Rp\xa01,500,000,00'
+result = replace_rp_string(input_string)
+print(result)  # Output: 1.500.000
