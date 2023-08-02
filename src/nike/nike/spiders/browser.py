@@ -5,11 +5,12 @@ import time, os
 class Scroller:
     def __init__(self):
         #wde = WebDriverException
-        options = webdriver.ChromeOptions()
-        options.add_argument = '--no-sandbox'
+        #options = webdriver.ChromeOptions()
+        #options.add_argument = '--no-sandbox'
+        #options.add_argument = '--start-maximized'
         #options.binary_location = '/home/rexsybimq12/.local/bin/msedgedriver'
-        self.driver = webdriver.Chrome(options=options)
-
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window() #<-- for linux
     def scroll(self, url):
         self.driver.get(url)
         a = self.driver.execute_script("return navigator.userAgent")
@@ -51,10 +52,10 @@ class Scroller:
 
 '''
 urls = {
-    'women_shoes'                 : 'https://www.nike.com/id/w/womens-shoes-5e1x6zy7ok',
     'men_shoes'                   : 'https://www.nike.com/id/w/mens-shoes-nik1zy7ok',
     'men_clothing'                : 'https://www.nike.com/id/w/mens-clothing-6ymx6znik1',
     'men_accessories_equipment'   : 'https://www.nike.com/id/w/mens-accessories-equipment-awwpwznik1',
+    'women_shoes'                 : 'https://www.nike.com/id/w/womens-shoes-5e1x6zy7ok',
     'women_clothing'              : 'https://www.nike.com/id/w/womens-clothing-5e1x6z6ymx6',
     'women_accessories_equipment' : 'https://www.nike.com/id/w/womens-accessories-equipment-5e1x6zawwpw',
     'kids_boys_clothing'          : "https://www.nike.com/id/w/boys-clothing-4413nz6ymx6",

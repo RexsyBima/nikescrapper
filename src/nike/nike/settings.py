@@ -67,6 +67,9 @@ ROBOTSTXT_OBEY = True
 #    "nike.pipelines.NikePipeline": 300,
 #}
 
+# Scrapy-Splash setup
+SPLASH_URL = 'http://192.168.59.103:8050'
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
